@@ -55,8 +55,50 @@ function Library:MakeWindow(config)
     Capoo.Parent = (game:GetService("CoreGui") or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
     Capoo.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+    -- Intro Animation Objects
+    local IntroFrame = Instance.new("Frame")
+    local IntroLogo = Instance.new("TextLabel")
+    local IntroGradient = Instance.new("UIGradient")
+    local IntroCorner = Instance.new("UICorner")
+
+    IntroFrame.Name = "IntroFrame"
+    IntroFrame.Parent = Capoo
+    IntroFrame.BackgroundColor3 = Color3.fromRGB(30, 35, 40)
+    IntroFrame.Position = UDim2.new(0.5, -100, 0.5, -30)
+    IntroFrame.Size = UDim2.new(0, 200, 0, 60)
+    IntroFrame.ZIndex = 10
+    IntroFrame.ClipsDescendants = true
+
+    IntroCorner.CornerRadius = UDim.new(0, 12)
+    IntroCorner.Parent = IntroFrame
+
+    IntroLogo.Parent = IntroFrame
+    IntroLogo.Size = UDim2.new(1, 0, 1, 0)
+    IntroLogo.Font = Enum.Font.ChangaOne
+    IntroLogo.Text = "OKXHUB"
+    IntroLogo.TextColor3 = Color3.fromRGB(255, 255, 255)
+    IntroLogo.TextSize = 30
+    IntroLogo.BackgroundTransparency = 1
+
+    IntroGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(91, 192, 222)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+    })
+    IntroGradient.Parent = IntroLogo
+
+    spawn(function()
+        IntroFrame.Size = UDim2.new(0, 0, 0, 60)
+        Library:Tween(IntroFrame, 0.8, {Size = UDim2.new(0, 200, 0, 60)})
+        wait(1.5)
+        Library:Tween(IntroFrame, 0.8, {BackgroundTransparency = 1})
+        Library:Tween(IntroLogo, 0.8, {TextTransparency = 1})
+        wait(0.8)
+        IntroFrame:Destroy()
+    end)
+
     local MainFrame = Instance.new("Frame")
     local UICorner = Instance.new("UICorner")
+    local UIStroke = Instance.new("UIStroke")
     local TitleBar = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
     local Credits = Instance.new("TextLabel")
@@ -72,21 +114,33 @@ function Library:MakeWindow(config)
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = Capoo
     MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    MainFrame.BackgroundTransparency = 0.1
+    MainFrame.BackgroundTransparency = 0.15
     MainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
-    MainFrame.Size = UDim2.new(0, 600, 0, 400)
+    MainFrame.Size = UDim2.new(0, 0, 0, 0)
     MainFrame.ClipsDescendants = true
+    MainFrame.Visible = false
 
     local MainGradient = Instance.new("UIGradient")
     MainGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 35, 40)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(35, 40, 45)),
         ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 25, 30))
     })
     MainGradient.Rotation = 45
     MainGradient.Parent = MainFrame
 
-    UICorner.CornerRadius = UDim.new(0, 10)
+    UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = MainFrame
+
+    UIStroke.Color = Color3.fromRGB(91, 192, 222)
+    UIStroke.Thickness = 1.5
+    UIStroke.Transparency = 0.5
+    UIStroke.Parent = MainFrame
+
+    spawn(function()
+        wait(2.2)
+        MainFrame.Visible = true
+        Library:Tween(MainFrame, 1, {Size = UDim2.new(0, 600, 0, 400)})
+    end)
 
     Library:MakeDraggable(MainFrame)
 
@@ -382,6 +436,15 @@ function Library:MakeWindow(config)
                     Library:Tween(Button, 0.1, {BackgroundColor3 = Color3.fromRGB(55, 60, 65)})
                     callback()
                 end)
+
+                Button.MouseEnter:Connect(function()
+                    Library:Tween(Button, 0.3, {BackgroundColor3 = Color3.fromRGB(70, 75, 80)})
+                    Library:Tween(Button, 0.3, {Size = UDim2.new(1, 5, 0, 32)})
+                end)
+                Button.MouseLeave:Connect(function()
+                    Library:Tween(Button, 0.3, {BackgroundColor3 = Color3.fromRGB(55, 60, 65)})
+                    Library:Tween(Button, 0.3, {Size = UDim2.new(1, 0, 0, 32)})
+                end)
             end
 
             function SectionElements:AddToggle(text, default, callback)
@@ -448,6 +511,15 @@ function Library:MakeWindow(config)
                         Library:Tween(ToggleCircle, 0.3, {BackgroundColor3 = Color3.fromRGB(150, 150, 150)})
                     end
                     callback(toggled)
+                end)
+
+                ToggleFrame.MouseEnter:Connect(function()
+                    Library:Tween(ToggleFrame, 0.3, {BackgroundColor3 = Color3.fromRGB(65, 70, 75)})
+                    Library:Tween(ToggleTitle, 0.3, {TextColor3 = Color3.fromRGB(255, 255, 255)})
+                end)
+                ToggleFrame.MouseLeave:Connect(function()
+                    Library:Tween(ToggleFrame, 0.3, {BackgroundColor3 = Color3.fromRGB(55, 60, 65)})
+                    Library:Tween(ToggleTitle, 0.3, {TextColor3 = Color3.fromRGB(220, 220, 220)})
                 end)
             end
 

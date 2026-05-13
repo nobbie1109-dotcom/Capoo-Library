@@ -71,13 +71,21 @@ function Library:MakeWindow(config)
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = Capoo
-    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 35, 40)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     MainFrame.BackgroundTransparency = 0.1
     MainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
     MainFrame.Size = UDim2.new(0, 600, 0, 400)
     MainFrame.ClipsDescendants = true
 
-    UICorner.CornerRadius = UDim.new(0, 8)
+    local MainGradient = Instance.new("UIGradient")
+    MainGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 35, 40)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 25, 30))
+    })
+    MainGradient.Rotation = 45
+    MainGradient.Parent = MainFrame
+
+    UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = MainFrame
 
     Library:MakeDraggable(MainFrame)
@@ -97,7 +105,7 @@ function Library:MakeWindow(config)
     Title.Font = Enum.Font.GothamBold
     Title.Text = WindowName
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 22.000
+    Title.TextSize = 20.000
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
     Credits.Name = "Credits"
@@ -106,10 +114,10 @@ function Library:MakeWindow(config)
     Credits.BackgroundTransparency = 1.000
     Credits.Position = UDim2.new(1, -250, 0, 0)
     Credits.Size = UDim2.new(0, 180, 1, 0)
-    Credits.Font = Enum.Font.GothamSemibold
+    Credits.Font = Enum.Font.GothamMedium
     Credits.Text = Info
-    Credits.TextColor3 = Color3.fromRGB(180, 180, 180)
-    Credits.TextSize = 14.000
+    Credits.TextColor3 = Color3.fromRGB(150, 150, 150)
+    Credits.TextSize = 13.000
     Credits.TextXAlignment = Enum.TextXAlignment.Right
 
     ButtonsFrame.Name = "ButtonsFrame"
@@ -158,10 +166,20 @@ function Library:MakeWindow(config)
 
     Separator.Name = "Separator"
     Separator.Parent = MainFrame
-    Separator.BackgroundColor3 = Color3.fromRGB(91, 192, 222)
+    Separator.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Separator.BorderSizePixel = 0
     Separator.Position = UDim2.new(0, 140, 0, 55)
     Separator.Size = UDim2.new(0, 2, 1, -65)
+
+    local SepGradient = Instance.new("UIGradient")
+    SepGradient.Color = ColorSequence.new(Color3.fromRGB(91, 192, 222))
+    SepGradient.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 1),
+        NumberSequenceKeypoint.new(0.5, 0),
+        NumberSequenceKeypoint.new(1, 1)
+    })
+    SepGradient.Rotation = 90
+    SepGradient.Parent = Separator
 
     ContentArea.Name = "ContentArea"
     ContentArea.Parent = MainFrame
@@ -222,15 +240,64 @@ function Library:MakeWindow(config)
             for _, v in pairs(TabList:GetChildren()) do
                 if v:IsA("TextButton") then
                     Library:Tween(v, 0.3, {BackgroundTransparency = 1})
-                    Library:Tween(v, 0.3, {TextColor3 = Color3.fromRGB(200, 200, 200)})
+                    Library:Tween(v, 0.3, {TextColor3 = Color3.fromRGB(180, 180, 180)})
+                    if v:FindFirstChild("TabGradient") then
+                        v.TabGradient:Destroy()
+                    end
                 end
             end
             TabPage.Visible = true
             Library:Tween(TabButton, 0.3, {BackgroundTransparency = 0.5})
             Library:Tween(TabButton, 0.3, {TextColor3 = Color3.fromRGB(255, 255, 255)})
+            
+            local TabGradient = Instance.new("UIGradient")
+            TabGradient.Name = "TabGradient"
+            TabGradient.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(91, 192, 222)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 35, 40))
+            })
+            TabGradient.Transparency = NumberSequence.new(0.5)
+            TabGradient.Parent = TabButton
         end)
 
         local Elements = {}
+
+        function Elements:AddSearchBar(placeholder, callback)
+            local SearchFrame = Instance.new("Frame")
+            local SearchCorner = Instance.new("UICorner")
+            local SearchInput = Instance.new("TextBox")
+            local SearchIcon = Instance.new("ImageLabel")
+
+            SearchFrame.Name = "SearchBar"
+            SearchFrame.Parent = TabPage
+            SearchFrame.BackgroundColor3 = Color3.fromRGB(45, 50, 55)
+            SearchFrame.Size = UDim2.new(1, 0, 0, 35)
+
+            SearchCorner.CornerRadius = UDim.new(0, 6)
+            SearchCorner.Parent = SearchFrame
+
+            SearchIcon.Parent = SearchFrame
+            SearchIcon.BackgroundTransparency = 1
+            SearchIcon.Position = UDim2.new(0, 10, 0.5, -9)
+            SearchIcon.Size = UDim2.new(0, 18, 0, 18)
+            SearchIcon.Image = "rbxassetid://6031154871"
+            SearchIcon.ImageColor3 = Color3.fromRGB(150, 150, 150)
+
+            SearchInput.Parent = SearchFrame
+            SearchInput.BackgroundTransparency = 1
+            SearchInput.Position = UDim2.new(0, 35, 0, 0)
+            SearchInput.Size = UDim2.new(1, -45, 1, 0)
+            SearchInput.Font = Enum.Font.Gotham
+            SearchInput.PlaceholderText = placeholder or "Search..."
+            SearchInput.Text = ""
+            SearchInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+            SearchInput.TextSize = 13
+            SearchInput.TextXAlignment = Enum.TextXAlignment.Left
+
+            SearchInput:GetPropertyChangedSignal("Text"):Connect(function()
+                callback(SearchInput.Text)
+            end)
+        end
 
         function Elements:CreateSection(title)
             local SectionFrame = Instance.new("Frame")
@@ -246,13 +313,23 @@ function Library:MakeWindow(config)
             SectionFrame.Size = UDim2.new(1, 0, 0, 30) -- Will auto resize
             SectionFrame.ClipsDescendants = true
 
-            SectionCorner.CornerRadius = UDim.new(0, 6)
+            SectionCorner.CornerRadius = UDim.new(0, 8)
             SectionCorner.Parent = SectionFrame
 
             SectionLine.Parent = SectionFrame
-            SectionLine.BackgroundColor3 = Color3.fromRGB(91, 192, 222)
+            SectionLine.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             SectionLine.BorderSizePixel = 0
-            SectionLine.Size = UDim2.new(1, 0, 0, 2)
+            SectionLine.Position = UDim2.new(0, 10, 0, 30)
+            SectionLine.Size = UDim2.new(1, -20, 0, 2)
+
+            local LineGradient = Instance.new("UIGradient")
+            LineGradient.Color = ColorSequence.new(Color3.fromRGB(91, 192, 222))
+            LineGradient.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0),
+                NumberSequenceKeypoint.new(0.8, 0),
+                NumberSequenceKeypoint.new(1, 1)
+            })
+            LineGradient.Parent = SectionLine
 
             SectionTitle.Name = "SectionTitle"
             SectionTitle.Parent = SectionFrame
@@ -262,7 +339,7 @@ function Library:MakeWindow(config)
             SectionTitle.Font = Enum.Font.GothamBold
             SectionTitle.Text = title
             SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-            SectionTitle.TextSize = 14
+            SectionTitle.TextSize = 13
             SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
 
             SectionContainer.Name = "SectionContainer"

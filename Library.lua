@@ -102,10 +102,10 @@ function Library:MakeWindow(config)
     Title.BackgroundTransparency = 1.000
     Title.Position = UDim2.new(0, 20, 0, 0)
     Title.Size = UDim2.new(0, 300, 1, 0)
-    Title.Font = Enum.Font.GothamBold
+    Title.Font = Enum.Font.ChangaOne
     Title.Text = WindowName
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 20.000
+    Title.TextSize = 24.000
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
     Credits.Name = "Credits"
@@ -114,10 +114,10 @@ function Library:MakeWindow(config)
     Credits.BackgroundTransparency = 1.000
     Credits.Position = UDim2.new(1, -250, 0, 0)
     Credits.Size = UDim2.new(0, 180, 1, 0)
-    Credits.Font = Enum.Font.GothamMedium
+    Credits.Font = Enum.Font.Actor
     Credits.Text = Info
     Credits.TextColor3 = Color3.fromRGB(150, 150, 150)
-    Credits.TextSize = 13.000
+    Credits.TextSize = 14.000
     Credits.TextXAlignment = Enum.TextXAlignment.Right
 
     ButtonsFrame.Name = "ButtonsFrame"
@@ -202,10 +202,10 @@ function Library:MakeWindow(config)
         TabButton.BackgroundColor3 = Color3.fromRGB(50, 55, 60)
         TabButton.BackgroundTransparency = 1
         TabButton.Size = UDim2.new(1, 0, 0, 35)
-        TabButton.Font = Enum.Font.GothamMedium
+        TabButton.Font = Enum.Font.ChangaOne
         TabButton.Text = name
         TabButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-        TabButton.TextSize = 14.000
+        TabButton.TextSize = 15.000
 
         TabUICorner.CornerRadius = UDim.new(0, 6)
         TabUICorner.Parent = TabButton
@@ -287,7 +287,7 @@ function Library:MakeWindow(config)
             SearchInput.BackgroundTransparency = 1
             SearchInput.Position = UDim2.new(0, 35, 0, 0)
             SearchInput.Size = UDim2.new(1, -45, 1, 0)
-            SearchInput.Font = Enum.Font.Gotham
+            SearchInput.Font = Enum.Font.Actor
             SearchInput.PlaceholderText = placeholder or "Search..."
             SearchInput.Text = ""
             SearchInput.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -336,10 +336,10 @@ function Library:MakeWindow(config)
             SectionTitle.BackgroundTransparency = 1
             SectionTitle.Position = UDim2.new(0, 10, 0, 5)
             SectionTitle.Size = UDim2.new(1, -20, 0, 25)
-            SectionTitle.Font = Enum.Font.GothamBold
+            SectionTitle.Font = Enum.Font.ChangaOne
             SectionTitle.Text = title
             SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-            SectionTitle.TextSize = 13
+            SectionTitle.TextSize = 14
             SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
 
             SectionContainer.Name = "SectionContainer"
@@ -368,10 +368,10 @@ function Library:MakeWindow(config)
                 Button.Parent = SectionContainer
                 Button.BackgroundColor3 = Color3.fromRGB(55, 60, 65)
                 Button.Size = UDim2.new(1, 0, 0, 32)
-                Button.Font = Enum.Font.GothamMedium
+                Button.Font = Enum.Font.Actor
                 Button.Text = text
                 Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Button.TextSize = 13
+                Button.TextSize = 14
 
                 BtnCorner.CornerRadius = UDim.new(0, 4)
                 BtnCorner.Parent = Button
@@ -407,10 +407,10 @@ function Library:MakeWindow(config)
                 ToggleTitle.BackgroundTransparency = 1
                 ToggleTitle.Position = UDim2.new(0, 10, 0, 0)
                 ToggleTitle.Size = UDim2.new(1, -60, 1, 0)
-                ToggleTitle.Font = Enum.Font.GothamMedium
+                ToggleTitle.Font = Enum.Font.Actor
                 ToggleTitle.Text = text
                 ToggleTitle.TextColor3 = Color3.fromRGB(220, 220, 220)
-                ToggleTitle.TextSize = 13
+                ToggleTitle.TextSize = 14
                 ToggleTitle.TextXAlignment = Enum.TextXAlignment.Left
 
                 ToggleBtn.Name = "ToggleBtn"
@@ -476,10 +476,10 @@ function Library:MakeWindow(config)
                 DropdownTitle.BackgroundTransparency = 1
                 DropdownTitle.Position = UDim2.new(0, 10, 0, 0)
                 DropdownTitle.Size = UDim2.new(1, -40, 0, 35)
-                DropdownTitle.Font = Enum.Font.GothamMedium
+                DropdownTitle.Font = Enum.Font.Actor
                 DropdownTitle.Text = text
                 DropdownTitle.TextColor3 = Color3.fromRGB(220, 220, 220)
-                DropdownTitle.TextSize = 13
+                DropdownTitle.TextSize = 14
                 DropdownTitle.TextXAlignment = Enum.TextXAlignment.Left
 
                 DropdownIcon.Parent = DropdownFrame
@@ -512,10 +512,10 @@ function Library:MakeWindow(config)
                     OptionBtn.Parent = DropdownList
                     OptionBtn.BackgroundColor3 = Color3.fromRGB(45, 50, 55)
                     OptionBtn.Size = UDim2.new(1, 0, 0, 25)
-                    OptionBtn.Font = Enum.Font.Gotham
+                    OptionBtn.Font = Enum.Font.Actor
                     OptionBtn.Text = v
                     OptionBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
-                    OptionBtn.TextSize = 12
+                    OptionBtn.TextSize = 13
 
                     OptionCorner.CornerRadius = UDim.new(0, 4)
                     OptionCorner.Parent = OptionBtn
@@ -564,20 +564,20 @@ function Library:MakeWindow(config)
                 SliderTitle.BackgroundTransparency = 1
                 SliderTitle.Position = UDim2.new(0, 10, 0, 5)
                 SliderTitle.Size = UDim2.new(1, -60, 0, 20)
-                SliderTitle.Font = Enum.Font.GothamMedium
+                SliderTitle.Font = Enum.Font.Actor
                 SliderTitle.Text = text
                 SliderTitle.TextColor3 = Color3.fromRGB(220, 220, 220)
-                SliderTitle.TextSize = 13
+                SliderTitle.TextSize = 14
                 SliderTitle.TextXAlignment = Enum.TextXAlignment.Left
 
                 SliderVal.Parent = SliderFrame
                 SliderVal.BackgroundTransparency = 1
                 SliderVal.Position = UDim2.new(1, -50, 0, 5)
                 SliderVal.Size = UDim2.new(0, 40, 0, 20)
-                SliderVal.Font = Enum.Font.GothamSemibold
+                SliderVal.Font = Enum.Font.ChangaOne
                 SliderVal.Text = tostring(default)
                 SliderVal.TextColor3 = Color3.fromRGB(91, 192, 222)
-                SliderVal.TextSize = 13
+                SliderVal.TextSize = 14
                 SliderVal.TextXAlignment = Enum.TextXAlignment.Right
 
                 SliderBar.Parent = SliderFrame
@@ -645,21 +645,21 @@ function Library:MakeWindow(config)
                 BoxTitle.BackgroundTransparency = 1
                 BoxTitle.Position = UDim2.new(0, 10, 0, 0)
                 BoxTitle.Size = UDim2.new(0, 100, 1, 0)
-                BoxTitle.Font = Enum.Font.GothamMedium
+                BoxTitle.Font = Enum.Font.Actor
                 BoxTitle.Text = text
                 BoxTitle.TextColor3 = Color3.fromRGB(220, 220, 220)
-                BoxTitle.TextSize = 13
+                BoxTitle.TextSize = 14
                 BoxTitle.TextXAlignment = Enum.TextXAlignment.Left
 
                 BoxInput.Parent = BoxFrame
                 BoxInput.BackgroundColor3 = Color3.fromRGB(40, 45, 50)
                 BoxInput.Position = UDim2.new(1, -160, 0.5, -12)
                 BoxInput.Size = UDim2.new(0, 150, 0, 24)
-                BoxInput.Font = Enum.Font.Gotham
+                BoxInput.Font = Enum.Font.Actor
                 BoxInput.PlaceholderText = placeholder
                 BoxInput.Text = ""
                 BoxInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-                BoxInput.TextSize = 12
+                BoxInput.TextSize = 13
 
                 InputCorner.CornerRadius = UDim.new(0, 4)
                 InputCorner.Parent = BoxInput
@@ -675,10 +675,10 @@ function Library:MakeWindow(config)
                 Label.Parent = SectionContainer
                 Label.BackgroundTransparency = 1
                 Label.Size = UDim2.new(1, 0, 0, 25)
-                Label.Font = Enum.Font.Gotham
+                Label.Font = Enum.Font.Actor
                 Label.Text = text
                 Label.TextColor3 = Color3.fromRGB(180, 180, 180)
-                Label.TextSize = 13
+                Label.TextSize = 14
                 Label.TextXAlignment = Enum.TextXAlignment.Left
             end
 

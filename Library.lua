@@ -131,14 +131,13 @@ function Library:MakeWindow(config)
     -- Full Screen Intro Overlay
     local IntroOverlay = Instance.new("Frame")
     IntroOverlay.Name = "IntroOverlay"
-    IntroOverlay.Parent = Capoo
     IntroOverlay.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     IntroOverlay.BackgroundTransparency = 0
     IntroOverlay.Size = UDim2.new(1, 0, 1, 0)
     IntroOverlay.ZIndex = 100
+    IntroOverlay.Parent = Capoo
 
     local IntroLogo = Instance.new("TextLabel")
-    IntroLogo.Parent = IntroOverlay
     IntroLogo.AnchorPoint = Vector2.new(0.5, 0.5)
     IntroLogo.Position = UDim2.new(0.5, 0, 0.5, -20)
     IntroLogo.Size = UDim2.new(0, 300, 0, 60)
@@ -149,9 +148,9 @@ function Library:MakeWindow(config)
     IntroLogo.BackgroundTransparency = 1
     IntroLogo.TextTransparency = 1
     IntroLogo.ZIndex = 101
+    IntroLogo.Parent = IntroOverlay
 
     local IntroSub = Instance.new("TextLabel")
-    IntroSub.Parent = IntroOverlay
     IntroSub.AnchorPoint = Vector2.new(0.5, 0.5)
     IntroSub.Position = UDim2.new(0.5, 0, 0.5, 30)
     IntroSub.Size = UDim2.new(0, 300, 0, 30)
@@ -162,16 +161,17 @@ function Library:MakeWindow(config)
     IntroSub.BackgroundTransparency = 1
     IntroSub.TextTransparency = 1
     IntroSub.ZIndex = 101
+    IntroSub.Parent = IntroOverlay
 
     spawn(function()
-        Library:Tween(IntroLogo, 0.8, {TextTransparency = 0})
+        Library:Tween(IntroLogo, 1, {TextTransparency = 0})
         wait(0.2)
-        Library:Tween(IntroSub, 0.8, {TextTransparency = 0})
+        Library:Tween(IntroSub, 1, {TextTransparency = 0})
         wait(1.5)
-        Library:Tween(IntroLogo, 0.5, {TextTransparency = 1})
-        Library:Tween(IntroSub, 0.5, {TextTransparency = 1})
-        Library:Tween(IntroOverlay, 0.8, {BackgroundTransparency = 1})
-        wait(0.8)
+        Library:Tween(IntroLogo, 0.8, {TextTransparency = 1})
+        Library:Tween(IntroSub, 0.8, {TextTransparency = 1})
+        Library:Tween(IntroOverlay, 1, {BackgroundTransparency = 1})
+        wait(1)
         IntroOverlay:Destroy()
     end)
 

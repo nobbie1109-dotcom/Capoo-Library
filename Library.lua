@@ -4,79 +4,6 @@ local CoreGui = game:GetService("CoreGui")
 
 local Library = {}
 
--- Notification System
-local Notifications = Instance.new("ScreenGui")
-Notifications.Name = "CapooNotifications"
-Notifications.Parent = (game:GetService("CoreGui") or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
-Notifications.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-local NotifyList = Instance.new("Frame")
-NotifyList.Name = "NotifyList"
-NotifyList.Parent = Notifications
-NotifyList.BackgroundTransparency = 1
-NotifyList.Position = UDim2.new(1, -260, 0, 20)
-NotifyList.Size = UDim2.new(0, 250, 1, -40)
-
-local NotifyLayout = Instance.new("UIListLayout")
-NotifyLayout.Parent = NotifyList
-NotifyLayout.SortOrder = Enum.SortOrder.LayoutOrder
-NotifyLayout.Padding = UDim.new(0, 10)
-NotifyLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-
-function Library:Notify(title, content, duration)
-    local NotifyFrame = Instance.new("Frame")
-    local NotifyCorner = Instance.new("UICorner")
-    local NotifyStroke = Instance.new("UIStroke")
-    local NotifyTitle = Instance.new("TextLabel")
-    local NotifyText = Instance.new("TextLabel")
-    local NotifyGlow = Instance.new("Frame")
-    
-    NotifyFrame.Name = "NotifyFrame"
-    NotifyFrame.Parent = NotifyList
-    NotifyFrame.BackgroundColor3 = Color3.fromRGB(30, 35, 40)
-    NotifyFrame.BackgroundTransparency = 0.2
-    NotifyFrame.Size = UDim2.new(1, 0, 0, 0)
-    NotifyFrame.ClipsDescendants = true
-    
-    NotifyCorner.CornerRadius = UDim.new(0, 8)
-    NotifyCorner.Parent = NotifyFrame
-    
-    NotifyStroke.Color = Color3.fromRGB(91, 192, 222)
-    NotifyStroke.Thickness = 1.5
-    NotifyStroke.Parent = NotifyFrame
-    
-    NotifyTitle.Parent = NotifyFrame
-    NotifyTitle.Position = UDim2.new(0, 10, 0, 8)
-    NotifyTitle.Size = UDim2.new(1, -20, 0, 20)
-    NotifyTitle.Font = Enum.Font.FredokaOne
-    NotifyTitle.Text = title
-    NotifyTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    NotifyTitle.TextSize = 16
-    NotifyTitle.TextXAlignment = Enum.TextXAlignment.Left
-    NotifyTitle.BackgroundTransparency = 1
-    
-    NotifyText.Parent = NotifyFrame
-    NotifyText.Position = UDim2.new(0, 10, 0, 28)
-    NotifyText.Size = UDim2.new(1, -20, 0, 32)
-    NotifyText.Font = Enum.Font.Actor
-    NotifyText.Text = content
-    NotifyText.TextColor3 = Color3.fromRGB(200, 200, 200)
-    NotifyText.TextSize = 13
-    NotifyText.TextXAlignment = Enum.TextXAlignment.Left
-    NotifyText.TextWrapped = true
-    NotifyText.BackgroundTransparency = 1
-
-    Library:Tween(NotifyFrame, 0.5, {Size = UDim2.new(1, 0, 0, 70)})
-    
-    spawn(function()
-        wait(duration or 3)
-        Library:Tween(NotifyFrame, 0.5, {Size = UDim2.new(1, 0, 0, 0)})
-        Library:Tween(NotifyFrame, 0.5, {BackgroundTransparency = 1})
-        wait(0.5)
-        NotifyFrame:Destroy()
-    end)
-end
-
 function Library:Tween(object, time, property)
     TweenService:Create(object, TweenInfo.new(time, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), property):Play()
 end
@@ -128,59 +55,8 @@ function Library:MakeWindow(config)
     Capoo.Parent = (game:GetService("CoreGui") or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
     Capoo.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-    -- Full Screen Intro Overlay
-    local IntroOverlay = Instance.new("Frame")
-    IntroOverlay.Name = "IntroOverlay"
-    IntroOverlay.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-    IntroOverlay.BackgroundTransparency = 0
-    IntroOverlay.Size = UDim2.new(1, 0, 1, 0)
-    IntroOverlay.ZIndex = 100
-    IntroOverlay.Parent = Capoo
-
-    local IntroLogo = Instance.new("TextLabel")
-    IntroLogo.AnchorPoint = Vector2.new(0.5, 0.5)
-    IntroLogo.Position = UDim2.new(0.5, 0, 0.5, -20)
-    IntroLogo.Size = UDim2.new(0, 300, 0, 60)
-    IntroLogo.Font = Enum.Font.FredokaOne
-    IntroLogo.Text = "OKXHUB"
-    IntroLogo.TextColor3 = Color3.fromRGB(255, 255, 255)
-    IntroLogo.TextSize = 50
-    IntroLogo.BackgroundTransparency = 1
-    IntroLogo.TextTransparency = 1
-    IntroLogo.ZIndex = 101
-    IntroLogo.Parent = IntroOverlay
-
-    local IntroSub = Instance.new("TextLabel")
-    IntroSub.AnchorPoint = Vector2.new(0.5, 0.5)
-    IntroSub.Position = UDim2.new(0.5, 0, 0.5, 30)
-    IntroSub.Size = UDim2.new(0, 300, 0, 30)
-    IntroSub.Font = Enum.Font.Actor
-    IntroSub.Text = "by nobbie hack"
-    IntroSub.TextColor3 = Color3.fromRGB(91, 192, 222)
-    IntroSub.TextSize = 20
-    IntroSub.BackgroundTransparency = 1
-    IntroSub.TextTransparency = 1
-    IntroSub.ZIndex = 101
-    IntroSub.Parent = IntroOverlay
-
-    spawn(function()
-        Library:Tween(IntroLogo, 1, {TextTransparency = 0})
-        wait(0.2)
-        Library:Tween(IntroSub, 1, {TextTransparency = 0})
-        wait(1.5)
-        Library:Tween(IntroLogo, 0.8, {TextTransparency = 1})
-        Library:Tween(IntroSub, 0.8, {TextTransparency = 1})
-        Library:Tween(IntroOverlay, 1, {BackgroundTransparency = 1})
-        wait(1)
-        IntroOverlay:Destroy()
-    end)
-
     local MainFrame = Instance.new("Frame")
-    local MainShadow = Instance.new("ImageLabel")
     local UICorner = Instance.new("UICorner")
-    local UIStroke = Instance.new("UIStroke")
-    local GlowEffect = Instance.new("Frame")
-    local GlowGradient = Instance.new("UIGradient")
     local TitleBar = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
     local Credits = Instance.new("TextLabel")
@@ -197,71 +73,20 @@ function Library:MakeWindow(config)
     MainFrame.Parent = Capoo
     MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     MainFrame.BackgroundTransparency = 0.1
-    MainFrame.Position = UDim2.new(0.5, -5, 0.5, -5)
-    MainFrame.Size = UDim2.new(0, 10, 0, 10)
+    MainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
+    MainFrame.Size = UDim2.new(0, 600, 0, 400)
     MainFrame.ClipsDescendants = true
-    MainFrame.Visible = false
-    MainFrame.ZIndex = 2
-
-    MainShadow.Name = "MainShadow"
-    MainShadow.Parent = MainFrame.Parent
-    MainShadow.BackgroundTransparency = 1
-    MainShadow.Position = UDim2.new(0.5, -315, 0.5, -215)
-    MainShadow.Size = UDim2.new(0, 630, 0, 430)
-    MainShadow.Image = "rbxassetid://6014261993"
-    MainShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    MainShadow.ImageTransparency = 0.5
-    MainShadow.Visible = false
-
-    GlowEffect.Name = "GlowEffect"
-    GlowEffect.Parent = MainFrame
-    GlowEffect.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    GlowEffect.Position = UDim2.new(0, -100, 0, -100)
-    GlowEffect.Size = UDim2.new(0, 200, 0, 200)
-    GlowEffect.ZIndex = 1
-    GlowEffect.BackgroundTransparency = 0.8
-    
-    GlowGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(91, 192, 222)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(35, 40, 45))
-    })
-    GlowGradient.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0),
-        NumberSequenceKeypoint.new(1, 1)
-    })
-    GlowGradient.Parent = GlowEffect
-
-    spawn(function()
-        game:GetService("RunService").RenderStepped:Connect(function()
-            local mouse = game:GetService("Players").LocalPlayer:GetMouse()
-            local targetPos = UDim2.new(0, mouse.X - MainFrame.AbsolutePosition.X, 0, mouse.Y - MainFrame.AbsolutePosition.Y)
-            GlowEffect.Position = UDim2.new(targetPos.X.Scale, targetPos.X.Offset - 100, targetPos.Y.Scale, targetPos.Y.Offset - 100)
-        end)
-    end)
 
     local MainGradient = Instance.new("UIGradient")
     MainGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(35, 40, 45)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 35, 40)),
         ColorSequenceKeypoint.new(1, Color3.fromRGB(20, 25, 30))
     })
     MainGradient.Rotation = 45
     MainGradient.Parent = MainFrame
 
-    UICorner.CornerRadius = UDim.new(0, 12)
+    UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = MainFrame
-
-    UIStroke.Color = Color3.fromRGB(91, 192, 222)
-    UIStroke.Thickness = 2
-    UIStroke.Transparency = 0
-    UIStroke.Parent = MainFrame
-
-    spawn(function()
-        wait(2.8)
-        MainFrame.Visible = true
-        MainShadow.Visible = true
-        Library:Tween(MainFrame, 1, {Size = UDim2.new(0, 600, 0, 400)})
-        Library:Tween(MainFrame, 1, {Position = UDim2.new(0.5, -300, 0.5, -200)})
-    end)
 
     Library:MakeDraggable(MainFrame)
 
@@ -277,10 +102,10 @@ function Library:MakeWindow(config)
     Title.BackgroundTransparency = 1.000
     Title.Position = UDim2.new(0, 20, 0, 0)
     Title.Size = UDim2.new(0, 300, 1, 0)
-    Title.Font = Enum.Font.FredokaOne
+    Title.Font = Enum.Font.ChangaOne
     Title.Text = WindowName
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 26.000
+    Title.TextSize = 24.000
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
     Credits.Name = "Credits"
@@ -364,20 +189,6 @@ function Library:MakeWindow(config)
     ContentArea.Size = UDim2.new(1, -160, 1, -60)
 
     local Tabs = {}
-    local TabMarker = Instance.new("Frame")
-    local MarkerCorner = Instance.new("UICorner")
-
-    TabMarker.Name = "TabMarker"
-    TabMarker.Parent = TabList
-    TabMarker.BackgroundColor3 = Color3.fromRGB(91, 192, 222)
-    TabMarker.Position = UDim2.new(0, -2, 0, 0)
-    TabMarker.Size = UDim2.new(0, 4, 0, 35)
-    TabMarker.Visible = false
-    TabMarker.ZIndex = 3
-
-    MarkerCorner.CornerRadius = UDim.new(1, 0)
-    MarkerCorner.Parent = TabMarker
-
     local firstTab = true
 
     function Tabs:CreateTab(name)
@@ -388,15 +199,15 @@ function Library:MakeWindow(config)
 
         TabButton.Name = name .. "Tab"
         TabButton.Parent = TabList
-        TabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TabButton.BackgroundColor3 = Color3.fromRGB(50, 55, 60)
         TabButton.BackgroundTransparency = 1
         TabButton.Size = UDim2.new(1, 0, 0, 35)
         TabButton.Font = Enum.Font.ChangaOne
         TabButton.Text = name
-        TabButton.TextColor3 = Color3.fromRGB(150, 150, 150)
+        TabButton.TextColor3 = Color3.fromRGB(200, 200, 200)
         TabButton.TextSize = 15.000
 
-        TabUICorner.CornerRadius = UDim.new(0, 8)
+        TabUICorner.CornerRadius = UDim.new(0, 6)
         TabUICorner.Parent = TabButton
 
         TabPage.Name = name .. "Page"
@@ -411,15 +222,13 @@ function Library:MakeWindow(config)
 
         TabUIList.Parent = TabPage
         TabUIList.SortOrder = Enum.SortOrder.LayoutOrder
-        TabUIList.Padding = UDim.new(0, 12)
+        TabUIList.Padding = UDim.new(0, 8)
 
         if firstTab then
             firstTab = false
             TabPage.Visible = true
-            TabButton.BackgroundTransparency = 0.9
+            TabButton.BackgroundTransparency = 0.5
             TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            TabMarker.Visible = true
-            TabMarker.Position = UDim2.new(0, -2, 0, TabButton.Position.Y.Offset)
         end
 
         TabButton.MouseButton1Click:Connect(function()
@@ -431,13 +240,24 @@ function Library:MakeWindow(config)
             for _, v in pairs(TabList:GetChildren()) do
                 if v:IsA("TextButton") then
                     Library:Tween(v, 0.3, {BackgroundTransparency = 1})
-                    Library:Tween(v, 0.3, {TextColor3 = Color3.fromRGB(150, 150, 150)})
+                    Library:Tween(v, 0.3, {TextColor3 = Color3.fromRGB(180, 180, 180)})
+                    if v:FindFirstChild("TabGradient") then
+                        v.TabGradient:Destroy()
+                    end
                 end
             end
             TabPage.Visible = true
-            Library:Tween(TabButton, 0.3, {BackgroundTransparency = 0.9})
+            Library:Tween(TabButton, 0.3, {BackgroundTransparency = 0.5})
             Library:Tween(TabButton, 0.3, {TextColor3 = Color3.fromRGB(255, 255, 255)})
-            Library:Tween(TabMarker, 0.3, {Position = UDim2.new(0, -2, 0, TabButton.Position.Y.Offset)})
+            
+            local TabGradient = Instance.new("UIGradient")
+            TabGradient.Name = "TabGradient"
+            TabGradient.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(91, 192, 222)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 35, 40))
+            })
+            TabGradient.Transparency = NumberSequence.new(0.5)
+            TabGradient.Parent = TabButton
         end)
 
         local Elements = {}
@@ -543,42 +363,24 @@ function Library:MakeWindow(config)
             function SectionElements:AddButton(text, callback)
                 local Button = Instance.new("TextButton")
                 local BtnCorner = Instance.new("UICorner")
-                local BtnStroke = Instance.new("UIStroke")
 
                 Button.Name = text .. "Button"
                 Button.Parent = SectionContainer
                 Button.BackgroundColor3 = Color3.fromRGB(55, 60, 65)
-                Button.BackgroundTransparency = 0.5
                 Button.Size = UDim2.new(1, 0, 0, 32)
                 Button.Font = Enum.Font.Actor
                 Button.Text = text
                 Button.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Button.TextSize = 14
 
-                BtnCorner.CornerRadius = UDim.new(0, 6)
+                BtnCorner.CornerRadius = UDim.new(0, 4)
                 BtnCorner.Parent = Button
 
-                BtnStroke.Color = Color3.fromRGB(255, 255, 255)
-                BtnStroke.Thickness = 1
-                BtnStroke.Transparency = 0.8
-                BtnStroke.Parent = Button
-
                 Button.MouseButton1Click:Connect(function()
-                    Library:Tween(Button, 0.1, {BackgroundColor3 = Color3.fromRGB(91, 192, 222)})
-                    Library:Tween(Button, 0.1, {BackgroundTransparency = 0})
+                    Library:Tween(Button, 0.1, {BackgroundColor3 = Color3.fromRGB(80, 85, 90)})
                     wait(0.1)
                     Library:Tween(Button, 0.1, {BackgroundColor3 = Color3.fromRGB(55, 60, 65)})
-                    Library:Tween(Button, 0.1, {BackgroundTransparency = 0.5})
                     callback()
-                end)
-
-                Button.MouseEnter:Connect(function()
-                    Library:Tween(Button, 0.3, {BackgroundTransparency = 0.3})
-                    Library:Tween(BtnStroke, 0.3, {Transparency = 0.4})
-                end)
-                Button.MouseLeave:Connect(function()
-                    Library:Tween(Button, 0.3, {BackgroundTransparency = 0.5})
-                    Library:Tween(BtnStroke, 0.3, {Transparency = 0.8})
                 end)
             end
 
@@ -646,15 +448,6 @@ function Library:MakeWindow(config)
                         Library:Tween(ToggleCircle, 0.3, {BackgroundColor3 = Color3.fromRGB(150, 150, 150)})
                     end
                     callback(toggled)
-                end)
-
-                ToggleFrame.MouseEnter:Connect(function()
-                    Library:Tween(ToggleFrame, 0.3, {BackgroundColor3 = Color3.fromRGB(65, 70, 75)})
-                    Library:Tween(ToggleTitle, 0.3, {TextColor3 = Color3.fromRGB(255, 255, 255)})
-                end)
-                ToggleFrame.MouseLeave:Connect(function()
-                    Library:Tween(ToggleFrame, 0.3, {BackgroundColor3 = Color3.fromRGB(55, 60, 65)})
-                    Library:Tween(ToggleTitle, 0.3, {TextColor3 = Color3.fromRGB(220, 220, 220)})
                 end)
             end
 
@@ -756,18 +549,15 @@ function Library:MakeWindow(config)
                 local SliderBarCorner = Instance.new("UICorner")
                 local SliderFill = Instance.new("Frame")
                 local SliderFillCorner = Instance.new("UICorner")
-                local SliderGlow = Instance.new("Frame")
-                local GlowGradient = Instance.new("UIGradient")
                 local SliderVal = Instance.new("TextLabel")
                 local SliderBtn = Instance.new("TextButton")
 
                 SliderFrame.Name = text .. "Slider"
                 SliderFrame.Parent = SectionContainer
                 SliderFrame.BackgroundColor3 = Color3.fromRGB(55, 60, 65)
-                SliderFrame.BackgroundTransparency = 0.5
                 SliderFrame.Size = UDim2.new(1, 0, 0, 45)
 
-                SliderCorner.CornerRadius = UDim.new(0, 6)
+                SliderCorner.CornerRadius = UDim.new(0, 4)
                 SliderCorner.Parent = SliderFrame
 
                 SliderTitle.Parent = SliderFrame
@@ -792,8 +582,8 @@ function Library:MakeWindow(config)
 
                 SliderBar.Parent = SliderFrame
                 SliderBar.BackgroundColor3 = Color3.fromRGB(40, 45, 50)
-                SliderBar.Position = UDim2.new(0, 10, 0, 32)
-                SliderBar.Size = UDim2.new(1, -20, 0, 4)
+                SliderBar.Position = UDim2.new(0, 10, 0, 30)
+                SliderBar.Size = UDim2.new(1, -20, 0, 6)
 
                 SliderBarCorner.CornerRadius = UDim.new(1, 0)
                 SliderBarCorner.Parent = SliderBar
@@ -804,19 +594,6 @@ function Library:MakeWindow(config)
 
                 SliderFillCorner.CornerRadius = UDim.new(1, 0)
                 SliderFillCorner.Parent = SliderFill
-
-                SliderGlow.Parent = SliderFill
-                SliderGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                SliderGlow.Position = UDim2.new(0, 0, 0, -2)
-                SliderGlow.Size = UDim2.new(1, 0, 1, 4)
-                SliderGlow.BackgroundTransparency = 0.6
-                
-                GlowGradient.Color = ColorSequence.new(Color3.fromRGB(91, 192, 222))
-                GlowGradient.Transparency = NumberSequence.new({
-                    NumberSequenceKeypoint.new(0, 0),
-                    NumberSequenceKeypoint.new(1, 1)
-                })
-                GlowGradient.Parent = SliderGlow
 
                 SliderBtn.Parent = SliderBar
                 SliderBtn.BackgroundTransparency = 1
@@ -846,13 +623,6 @@ function Library:MakeWindow(config)
                     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
                         move(input)
                     end
-                end)
-
-                SliderFrame.MouseEnter:Connect(function()
-                    Library:Tween(SliderFrame, 0.3, {BackgroundTransparency = 0.3})
-                end)
-                SliderFrame.MouseLeave:Connect(function()
-                    Library:Tween(SliderFrame, 0.3, {BackgroundTransparency = 0.5})
                 end)
             end
 
